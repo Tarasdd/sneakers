@@ -7,7 +7,8 @@ function Home( {searchValue,
   items,
   onAddToCart,
   onAddToFavorites,
-  cartItem}) {
+  cartItem,
+loading}) {
   return (
     <div className="content">
         <div className="range-line">
@@ -25,6 +26,7 @@ function Home( {searchValue,
               onFavorite={(obj) => onAddToFavorites(obj)}
               added={cartItem.some(obj => Number(obj.id) === Number(item.id))}
               {...item}
+              loading={loading}
             />
           ))}
         </div>

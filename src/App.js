@@ -5,6 +5,7 @@ import React from "react";
 import axios from "axios";
 import {Route, Routes} from 'react-router-dom';
 import Favorites from "./pages/Favorites";
+import { TRUE } from "node-sass";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -12,6 +13,8 @@ function App() {
   const [cartItem, setCartItem] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
+  const [loading, setLoading] = React.useState(true);
+
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
@@ -22,7 +25,6 @@ function App() {
       setCartItem([...cartItem, obj]);
     }
   };
-  
 
   const onAddToFavorites = async (obj) => {
     try {
@@ -64,6 +66,8 @@ function App() {
       setCartItem(cartResponse.data)
       setFavorites(favoriteResponse.data)
       setItems(itemsResponse.data)
+
+      setLoading(false)
     }
 
     fetchData();
@@ -99,6 +103,7 @@ function App() {
             items={items}
             onAddToCart={onAddToCart}
             onAddToFavorites={onAddToFavorites}
+            loading={loading}
           />
         } />
         <Route path="/favorites" element={
