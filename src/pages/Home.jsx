@@ -1,5 +1,6 @@
 import Search from "../components/Search";
 import Card from "../components/Card";
+import Skeleton from "../components/Skeleton";
 
 function Home( {searchValue,
   setSearchValue,
@@ -8,7 +9,7 @@ function Home( {searchValue,
   onAddToCart,
   onAddToFavorites,
   cartItem,
-loading}) {
+  loading}) {
   return (
     <div className="content">
         <div className="range-line">
@@ -17,7 +18,15 @@ loading}) {
         </div>
 
         <div className="sneakers">
-          {items
+          {loading ? 
+          <div className="skeleton-list">
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </div> 
+          : 
+          items
           .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
           .map((item) => (
             <Card 

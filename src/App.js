@@ -5,7 +5,6 @@ import React from "react";
 import axios from "axios";
 import {Route, Routes} from 'react-router-dom';
 import Favorites from "./pages/Favorites";
-import { TRUE } from "node-sass";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -14,7 +13,6 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [loading, setLoading] = React.useState(true);
-
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
@@ -71,6 +69,7 @@ function App() {
     }
 
     fetchData();
+    
     // axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/items').then((res) => {
     // setItems(res.data)
     // });
