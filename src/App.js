@@ -5,6 +5,7 @@ import React from "react";
 import axios from "axios";
 import {Route, Routes} from 'react-router-dom';
 import Favorites from "./pages/Favorites";
+import AppContext from "./context";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -28,7 +29,7 @@ function App() {
     try {
       if (favorites.find((favObj) => favObj.id === obj.id)) {
         axios.delete(`https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites/${obj.id}`);
-        // setFavorites(prev => prev.filter(item => item.id !== obj.id))
+        setFavorites(prev => prev.filter((item) => Number(item.id) !== Number(obj.id)))
       } else {
         const {data} = await axios.post('https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites', obj)
         setFavorites(prev => [...prev, data])
@@ -54,6 +55,10 @@ function App() {
   //     setItems(json);
   //   })
   // }, [])
+
+  const isItemAdded = (id) => {
+    return cartItem.some(obj => Number(obj.id) === Number(id))
+  }
 
   React.useEffect(() => {
     async function fetchData() {
@@ -84,7 +89,8 @@ function App() {
   }, [])
 
   return (
-    <div className="wrapper">
+    <AppContext.Provider value={ {items, favorites, cartItem, isItemAdded, setOpenOverlay, setCartItem} }>
+      <div className="wrapper">
       {/* DRAWER */}
       {openOverlay && <Drawer onRemove={onRemoveItem} items={cartItem} onClose={() => setOpenOverlay(false)}/>}
 
@@ -107,13 +113,14 @@ function App() {
         } />
         <Route path="/favorites" element={
           <Favorites 
-            items={favorites}
-            onAddToCart={onAddToCart}
+            
+            // onAddToCart={onAddToCart}
             onAddToFavorites={onAddToFavorites}/>
           }>
         </Route>
       </Routes>
-    </div>
+      </div>
+    </AppContext.Provider>
   );
 }
 

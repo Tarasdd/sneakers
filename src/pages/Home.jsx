@@ -1,15 +1,10 @@
 import Search from "../components/Search";
 import Card from "../components/Card";
 import Skeleton from "../components/Skeleton";
+import React from "react";
 
-function Home( {searchValue,
-  setSearchValue,
-  onChangeSearchInput,
-  items,
-  onAddToCart,
-  onAddToFavorites,
-  cartItem,
-  loading}) {
+function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddToCart, onAddToFavorites, loading}) {
+
   return (
     <div className="content">
         <div className="range-line">
@@ -33,7 +28,7 @@ function Home( {searchValue,
               key={item.id} 
               onPlus={(obj) => onAddToCart(obj)}
               onFavorite={(obj) => onAddToFavorites(obj)}
-              added={cartItem.some(obj => Number(obj.id) === Number(item.id))}
+              // added={isItemAdded(item.id)}
               {...item}
               loading={loading}
             />

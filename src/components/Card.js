@@ -1,13 +1,14 @@
 import React from "react";
 import Skeleton from "./Skeleton";
 
-function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false, added = false, loading} ) {
-  const [isAdded, setIsAdded] = React.useState(added);
+import AppContext from "../context";
+
+function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false, loading} ) {
   const [isFavorite, setIsFavorite] = React.useState(favorited);
+  const { isItemAdded } = React.useContext(AppContext)
 
   const onClickPlus = () => {
     onPlus( {id, imgUrl, title, price} )
-    setIsAdded(!isAdded)
   }
 
   const onClickFavorite = () => {
@@ -32,7 +33,8 @@ function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false,
                 <b>{price} $</b>
               </div>
 
-              <img className="plus" onClick={onClickPlus} src={isAdded ? "/img/success.svg" : "/img/unsuccess.svg"} alt="plus"/>
+              <img className="plus" onClick={onClickPlus} 
+              src={isItemAdded(id) ? "/img/success.svg" : "/img/unsuccess.svg"} alt="plus"/>
 
             </div>
         </>)

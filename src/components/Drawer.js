@@ -1,4 +1,32 @@
+import React from "react";
+import Info from "./Info";
+import AppContext from "../context";
+import axios from "axios";
+
 function Drawer({onClose, onRemove, items = []}) {
+  const { cartItem, setCartItem } = React.useContext(AppContext)
+  const [isOrderComplete, setIsOrderComplete] = React.useState(false)
+  const [orderId, setOrderId] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(false)
+  
+
+  const onClickOrderComplete = async () => {
+    try {
+      setIsLoading(true)
+       const { data } = await axios.post('https://64e9f30bbf99bdcc8e6722df.mockapi.io/orders', {items: cartItem})
+      // await axios.put('https://64e8fb1e99cf45b15fe06193.mockapi.io/cart', [])
+      setOrderId(data.id)
+      setIsOrderComplete(true)
+      setCartItem([])
+
+      // console.log(isOrderComplete);
+    } catch(err) {
+      console.error(err.response);
+      alert('Cant create order ;<')
+    }
+    setIsLoading(false)
+  }
+
   return (
     <div className="overlay">
       <div className="drawer">
@@ -6,7 +34,7 @@ function Drawer({onClose, onRemove, items = []}) {
 
             {
               items.length > 0 ? (
-                <div>
+              <>
                   <div className="items">
               {items.map(obj => (
               <div>
@@ -36,22 +64,27 @@ function Drawer({onClose, onRemove, items = []}) {
                   <b>34 $</b>
                 </li>
               </ul>
-            <button className="greenButton">checkout <img src="/img/arrow.svg" alt="Arrow"/></button>
-         </div>
-                </div>
+            <button disabled={isLoading} onClick={onClickOrderComplete} className="greenButton">checkout <img src="/img/arrow.svg" alt="Arrow"/></button>
+            </div>
+            </>
             )
             : 
             (
-            <div className="cart-empty">
-              <img width={120} height={120} src="/img/basket.png" alt="basket"/>
-              <h2>Empty basket</h2>
-              <p>add sneakers to order</p>
-              <button onClick={onClose} className="greenButton">
-                Come back
-              </button>
-            </div>
+            <Info 
+            title={isOrderComplete ? "Order complete" : "Basket empty"} 
+            description={isOrderComplete ? `Your order #${orderId} will be delivered to courier soon` : 'please, add at least one pair of sneakers'} 
+            image={isOrderComplete ? '/img/list.png' : "/img/basket.png"}
+            />
+            // <div className="cart-empty">
+            //   <img width={120} height={120} src="/img/basket.png" alt="basket"/>
+            //   <h2>Empty basket</h2>
+            //   <p>add sneakers to order</p>
+            //   <button onClick={onClose} className="greenButton">
+            //     Come back
+            //   </button>
+            // </div>
             )
-            }
+          }
             
 
             
