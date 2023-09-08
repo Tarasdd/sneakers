@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom'
+import AppContext from '../context';
 
-function Header(props) {
+function Header({amount, onClickCart}) {
   return (
     <header>
         <Link to="/">
@@ -13,9 +14,9 @@ function Header(props) {
           </div>
         </Link>
         <ul className="header__right">
-          <li onClick={props.onClickCart} className="comp-li">
+          <li onClick={onClickCart} className="comp-li">
             <img src="/img/Group.svg" alt="group"/>
-            <p>1230 $</p>
+            <p>{amount} $</p>
           </li>
           <li className="comp-li">
             <Link to="/favorites">

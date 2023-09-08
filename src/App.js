@@ -14,6 +14,8 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [loading, setLoading] = React.useState(true);
+  const [amount, setAmount] = React.useState(0);
+  
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
@@ -89,13 +91,13 @@ function App() {
   }, [])
 
   return (
-    <AppContext.Provider value={ {items, favorites, cartItem, isItemAdded, setOpenOverlay, setCartItem} }>
+    <AppContext.Provider value={ {items, favorites, cartItem, amount, setAmount, isItemAdded, setOpenOverlay, setCartItem} }>
       <div className="wrapper">
       {/* DRAWER */}
       {openOverlay && <Drawer onRemove={onRemoveItem} items={cartItem} onClose={() => setOpenOverlay(false)}/>}
 
       {/* HEADER */}
-      <Header onClickCart={() => setOpenOverlay(true)} />
+      <Header amount={amount} onClickCart={() => setOpenOverlay(true)} />
 
       {/* CONTENT */}
       <Routes>

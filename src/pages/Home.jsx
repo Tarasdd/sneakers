@@ -26,7 +26,7 @@ function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
           .map((item) => (
             <Card 
               key={item.id} 
-              onPlus={(obj) => onAddToCart(obj)}
+              onPlus={(obj) => onAddToCart(obj, console.log(obj))}
               onFavorite={(obj) => onAddToFavorites(obj)}
               // added={isItemAdded(item.id)}
               {...item}

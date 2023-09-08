@@ -29,7 +29,13 @@ function Favorites( {onAddToFavorites} ) {
       ) 
       :
       (
-        <Info />
+        <div className="info-block">
+          <Info
+          title={'No marks :('}
+          description={'You nothing add to marks'}  
+          image={'/img/sad-imoji.png'} 
+        />
+        </div>
       )
       // <div className="content">
       //   <div className="range-line">
