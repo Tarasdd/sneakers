@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 img {
@@ -19,13 +20,14 @@ a {
 body {
   height: 100%;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #e7f6ff;
 }
 
 .wrapper {
   border-radius: 20px;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.04);
   max-width: 1080px;
   margin: 50px auto;
@@ -47,11 +49,10 @@ header {
   .header__right {
     display: flex;
 
-
     p {
       margin-left: 10px;
       width: 50px;
-      color: #5C5C5C;;
+      color: #5c5c5c;
       font-size: 14px;
       font-weight: 500;
     }
@@ -60,7 +61,6 @@ header {
       display: flex;
       cursor: pointer;
     }
-    
   }
 
   .name {
@@ -84,7 +84,6 @@ header {
 .sneakers {
   display: flex;
   flex-wrap: wrap;
-  
 }
 
 .range-line {
@@ -209,7 +208,7 @@ header {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  
+
   h2 {
     margin-bottom: 30px;
     display: flex;
@@ -239,7 +238,6 @@ header {
   flex: 1 1 auto;
   overflow: auto;
   margin-bottom: 40px;
-
 }
 
 .cartTotalBlock {
@@ -247,7 +245,6 @@ header {
     margin-bottom: 20px;
   }
 
-  
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -281,7 +278,7 @@ header {
 
   .block-sneakers {
     margin-right: 15px;
-    transform: translateY(-7px) ;
+    transform: translateY(-7px);
   }
 
   p {
@@ -309,47 +306,47 @@ header {
 }
 
 .greenButton {
-    position: relative;
-    
-      width: 100%;
-      height: 55px;
-      background: #9dd558;
-      border-radius: 18px;
-  
-      border: 0;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      transition: background 0.15s ease-in-out;
-  
-      cursor: pointer;
-  
-      &:hover {
-        background: lighten(#9dd558, 5%);
-      }
-  
-      &:active {
-        background: darken(#9dd558, 5%);
-      }
+  position: relative;
 
+  width: 100%;
+  height: 55px;
+  background: #9dd558;
+  border-radius: 18px;
+
+  border: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.15s ease-in-out;
+
+  cursor: pointer;
+
+  &:hover {
+    background: lighten(#9dd558, 5%);
+  }
+
+  &:active {
+    background: darken(#9dd558, 5%);
+  }
+
+  img {
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    transition: transform 0.15s ease-in-out;
+  }
+
+  &:hover {
     img {
-      position: absolute;
-      right: 35px;
-      top: 20px;
-      transition: transform 0.15s ease-in-out;
+      transform: translateX(5px);
     }
+  }
 
-    &:hover {
-      img {
-        transform: translateX(5px);
-      }
-    }
-
-    &:disabled {
-      animation: btn-loading 0.8s ease-in-out infinite;
-      background-color: #bebebe !important;
-      cursor: default;
-    }
+  &:disabled {
+    animation: btn-loading 0.8s ease-in-out infinite;
+    background-color: #bebebe !important;
+    cursor: default;
+  }
 }
 
 .info-block {
@@ -376,6 +373,59 @@ header {
     height: 70px;
   }
 }
+.sneakers {
+  display: flex;
+  justify-content: center;
+  .skeleton-list {
+    display: flex;
+
+    gap: 40px;
+  }
+}
+
+.app__main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.app__main-container > *:not(:last-child) {
+  margin-bottom: 50px;
+}
+
+.slider-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  height: 100%;
+  width: 100%;
+}
+
+.main-container {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+}
+
+.window {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.all-pages-container {
+  height: 100%;
+  display: flex;
+  transition: translate;
+  transition-property: transform;
+  /* transition-duration: 300ms; */
+  transition-timing-function: ease-in-out;
+}
+
+.arrow {
+  cursor: pointer;
+}
 
 @keyframes btn-loading {
   0% {
@@ -390,4 +440,3 @@ header {
     opacity: 1;
   }
 }
-
