@@ -398,7 +398,6 @@ header {
   justify-content: center;
   user-select: none;
   height: 100%;
-  width: 100%;
 }
 
 .main-container {
@@ -412,12 +411,14 @@ header {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  border-radius: 5px;
 }
 
 .all-pages-container {
   height: 100%;
   display: flex;
   transition: translate;
+
   transition-property: transform;
   /* transition-duration: 300ms; */
   transition-timing-function: ease-in-out;
