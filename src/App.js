@@ -6,6 +6,7 @@ import axios from "axios";
 import {Route, Routes} from 'react-router-dom';
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
+import Orders from "./pages/Orders";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -14,8 +15,6 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [loading, setLoading] = React.useState(true);
-  const [amount, setAmount] = React.useState(0);
-  
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
@@ -91,13 +90,19 @@ function App() {
   }, [])
 
   return (
-    <AppContext.Provider value={ {items, favorites, cartItem, amount, setAmount, isItemAdded, setOpenOverlay, setCartItem} }>
+    <AppContext.Provider value={ {items, favorites, cartItem, openOverlay, setItems, isItemAdded, setOpenOverlay, setCartItem, onAddToCart, onAddToFavorites}}>
       <div className="wrapper">
       {/* DRAWER */}
-      {openOverlay && <Drawer onRemove={onRemoveItem} items={cartItem} onClose={() => setOpenOverlay(false)}/>}
+      
+      <Drawer 
+        onRemove={onRemoveItem} 
+        items={cartItem} 
+        onClose={() => setOpenOverlay(false)} 
+        openOverlay={openOverlay}
+      />
 
       {/* HEADER */}
-      <Header amount={amount} onClickCart={() => setOpenOverlay(true)} />
+      <Header onClickCart={() => setOpenOverlay(true)} />
 
       {/* CONTENT */}
       <Routes>
@@ -115,11 +120,16 @@ function App() {
         } />
         <Route path="/favorites" element={
           <Favorites 
-            
             // onAddToCart={onAddToCart}
             onAddToFavorites={onAddToFavorites}/>
           }>
         </Route>
+
+        <Route path="/orders" element={
+          <Orders /> 
+        }>
+        </Route>
+        
       </Routes>
       </div>
     </AppContext.Provider>

@@ -3,12 +3,21 @@ import Info from "./Info";
 import AppContext from "../context";
 import axios from "axios";
 
-function Drawer({onClose, onRemove, items = []}) {
-  const { cartItem, setCartItem } = React.useContext(AppContext)
+function Drawer( {onClose, onRemove, items = []} ) {
+  const { cartItem, setCartItem, openOverlay } = React.useContext(AppContext)
   const [isOrderComplete, setIsOrderComplete] = React.useState(false)
   const [orderId, setOrderId] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   
+  const totalAmount = () => {
+    return cartItem.reduce((sum, obj) => obj.price + sum, 0)
+  }
+
+  const taxAmount = () => {
+    const total = totalAmount();
+    const tax = Math.floor((total * 5) / 100)
+    return tax;
+  }
 
   const onClickOrderComplete = async () => {
     try {
@@ -28,7 +37,7 @@ function Drawer({onClose, onRemove, items = []}) {
   }
 
   return (
-    <div className="overlay">
+    <div className={`overlay ${openOverlay ? 'overlayVisible' : ''}`}>
       <div className="drawer">
             <h2>Basket <img onClick={onClose} className="remove-btn" src="/img/btn-remove-hover.svg" alt="remove"/></h2>
 
@@ -56,12 +65,12 @@ function Drawer({onClose, onRemove, items = []}) {
                 <li className="line">
                   <span>Total:</span>
                   <div></div>
-                  <b>680 $</b>
+                  <b>{totalAmount()} $</b>
                 </li>
                 <li  className="line">
                   <span>Tax 5%:</span>
                   <div></div>
-                  <b>34 $</b>
+                  <b>{taxAmount()} $</b>
                 </li>
               </ul>
             <button disabled={isLoading} onClick={onClickOrderComplete} className="greenButton">checkout <img src="/img/arrow.svg" alt="Arrow"/></button>
