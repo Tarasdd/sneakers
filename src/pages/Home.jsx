@@ -27,8 +27,8 @@ function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
               onChange={sortPosts}
               defaultValue='Sort'
               options={[
-                {value: 'price', name: 'by price'},
-                {value: 'from old to new', name: 'from old to new'},
+                {value: 'id', name: 'from new to old'},
+                {value: 'price', name: 'lower price'},
               ]}
             />
           </div>
