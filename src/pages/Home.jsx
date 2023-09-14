@@ -1,11 +1,21 @@
 import Search from "../components/Search";
 import Card from "../components/Card";
 import Skeleton from "../components/Skeleton";
-import CarouselCompound from "../carousel-compound/Carousel.jsx";
 import React from "react";
 import { Select } from "../components/Select";
 import AppContext from "../context";
 
+function Home({
+  searchValue,
+  setSearchValue,
+  onChangeSearchInput,
+  items,
+  onAddToCart,
+  onAddToFavorites,
+  loading,
+}) {
+  const { setItems } = React.useContext(AppContext);
+  const [selectedSort, setSelectedSort] = React.useState("");
 function Home({
   searchValue,
   setSearchValue,
@@ -82,3 +92,4 @@ function Home({
 }
 
 export default Home;
+
