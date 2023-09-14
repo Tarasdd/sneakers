@@ -21,16 +21,17 @@ function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
           <h1>{searchValue ? `Search by "${searchValue}"` : `The whole range`}</h1>
 
           <div style={{display: 'flex'}}>
-          <div>
+          <div className="select">
             <Select 
               value={selectedSort}
               onChange={sortPosts}
               defaultValue='Sort'
               options={[
-                {value: 'price', name: 'by price'},
-                {value: 'from old to new', name: 'from old to new'},
+                {value: 'id', name: 'from new to old'},
+                {value: 'price', name: 'lower price'},
               ]}
             />
+            <img src="/img/back-arrow.png" />
           </div>
 
           <Search 

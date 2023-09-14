@@ -8,7 +8,7 @@ export const Select = ( {options, defaultValue, value, onChange}) => {
   // console.log(onChange);
   
   return (
-    <select
+    <select className="select-custom"
       value={value}
       onChange={event =>  onChange(event.target.value)}
     >
