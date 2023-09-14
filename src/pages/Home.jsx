@@ -1,6 +1,7 @@
 import Search from "../components/Search";
 import Card from "../components/Card";
 import Skeleton from "../components/Skeleton";
+import CarouselCompound from "../carousel-compound/Carousel.jsx";
 import React from "react";
 import { Select } from "../components/Select";
 import AppContext from "../context";
@@ -43,15 +44,15 @@ function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
 
         </div>
 
-        <div className="sneakers">
-          {loading ? 
+      <div className="sneakers">
+        {loading ? (
           <div className="skeleton-list">
             <Skeleton />
             <Skeleton />
             <Skeleton />
             <Skeleton />
-          </div> 
-          : 
+          </div>
+        ) : (
           items
           .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
           .map((item) => (
@@ -66,7 +67,8 @@ function Home( {searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
           ))}
         </div>
       </div>
-  )
+    </div>
+  );
 }
 
 export default Home;
