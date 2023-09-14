@@ -8,7 +8,7 @@ function Card({
   imgUrl,
   title,
   price,
-  onAddToCart,
+  onPlus,
   onFavorite,
   favorited = false,
   loading,
@@ -16,12 +16,12 @@ function Card({
   const [isFavorite, setIsFavorite] = React.useState(favorited);
   const { isItemAdded, amount, setAmount } = React.useContext(AppContext);
 
-  const onAddToCartHandler = () => {
+  const onClickPlus = () => {
     if (isItemAdded(id)) {
-      onAddToCart({ id, imgUrl, title, price });
+      onPlus({ id, imgUrl, title, price });
       setAmount(amount - price);
     } else {
-      onAddToCart({ id, imgUrl, title, price });
+      onPlus({ id, imgUrl, title, price });
       setAmount(amount + price);
     }
   };
@@ -59,7 +59,7 @@ function Card({
 
             <img
               className="plus"
-              onClick={onAddToCartHandler}
+              onClick={onClickPlus}
               src={isItemAdded(id) ? "/img/success.svg" : "/img/unsuccess.svg"}
               alt="plus"
             />

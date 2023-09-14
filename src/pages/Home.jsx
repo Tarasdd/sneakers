@@ -2,7 +2,6 @@ import Search from "../components/Search";
 import Card from "../components/Card";
 import Skeleton from "../components/Skeleton";
 import CarouselCompound from "../carousel-compound/Carousel.jsx";
-import SessionEndComponent from "../hooks/BeforeUnload";
 import React from "react";
 
 function Home({
@@ -43,7 +42,7 @@ function Home({
             .map((item) => (
               <Card
                 key={item.id}
-                onAddToCart={(obj) => onAddToCart(obj, console.log(obj))}
+                onPlus={(obj) => onAddToCart(obj, console.log(obj))}
                 onFavorite={(obj) => onAddToFavorites(obj)}
                 // added={isItemAdded(item.id)}
                 {...item}

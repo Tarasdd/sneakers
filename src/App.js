@@ -6,9 +6,6 @@ import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
-import getPriceOfCart from "./utils/utils.js";
-import SessionEndComponent from "./hooks/BeforeUnload";
-const { MongoClient } = require("mongodb");
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -19,43 +16,33 @@ function App() {
   const [loading, setLoading] = React.useState(true);
   const [amount, setAmount] = React.useState(0);
 
-  SessionEndComponent();
-
-  // const mongoClient = new MongoClient(
-  //   "mongodb+srv://stefik:poppen_23@cart.05comij.mongodb.net/?retryWrites=true&w=majority"
-  // );
-
-  const onAddToCart = async (obj) => {
+  const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
-      // await axios.delete(
-      //   `https://64e8fb1e99cf45b15fe06193.mockapi.io/cart/${obj.id}`
-      // );
+      // axios.delete(`https://64e8fb1e99cf45b15fe06193.mockapi.io/cart/${obj.id}`);
       setCartItem(
         cartItem.filter((item) => Number(item.id) !== Number(obj.id))
       );
     } else {
-      // axios.post("https://64e8fb1e99cf45b15fe06193.mockapi.io/cart", obj);
-
+      axios.post("https://64e8fb1e99cf45b15fe06193.mockapi.io/cart", obj);
       setCartItem([...cartItem, obj]);
-      console.log(cartItem);
     }
   };
 
   const onAddToFavorites = async (obj) => {
     try {
       if (favorites.find((favObj) => favObj.id === obj.id)) {
-        /*axios.delete(
+        axios.delete(
           `https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites/${obj.id}`
-        );*/
+        );
         setFavorites((prev) =>
           prev.filter((item) => Number(item.id) !== Number(obj.id))
         );
       } else {
-        /* const { data } = await axios.post(
+        const { data } = await axios.post(
           "https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites",
           obj
-        );*/
-        // setFavorites((prev) => [...prev, data]);
+        );
+        setFavorites((prev) => [...prev, data]);
       }
     } catch (err) {
       alert("Cant add to favorites :<");
@@ -65,7 +52,6 @@ function App() {
   const onRemoveItem = (id) => {
     axios.delete(`https://64e8fb1e99cf45b15fe06193.mockapi.io/cart/${id}`);
     setCartItem((prev) => prev.filter((item) => item.id !== id));
-    setAmount(getPriceOfCart(cartItem));
   };
 
   const onChangeSearchInput = (event) => {
@@ -95,10 +81,8 @@ function App() {
       const favoriteResponse = await axios.get(
         "https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites"
       );
-      // const data = await mongoClient.db().collection("Cart").find({}).toArray();
-      // console.log(data);
+
       setCartItem(cartResponse.data);
-      setAmount(getPriceOfCart(cartResponse.data));
 
       setFavorites(favoriteResponse.data);
       setItems(itemsResponse.data);
