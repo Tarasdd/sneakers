@@ -3,7 +3,16 @@ import Skeleton from "./Skeleton";
 
 import AppContext from "../context";
 
-function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false, loading} ) {
+function Card({
+  id,
+  imgUrl,
+  title,
+  price,
+  onPlus,
+  onFavorite,
+  favorited = false,
+  loading,
+}) {
   const [isFavorite, setIsFavorite] = React.useState(favorited);
   const { isItemAdded } = React.useContext(AppContext)
 
@@ -12,9 +21,9 @@ function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false,
   }
 
   const onClickFavorite = () => {
-    onFavorite( {id, imgUrl, title, price} )
-    setIsFavorite(!isFavorite)
-  }
+    onFavorite({ id, imgUrl, title, price });
+    setIsFavorite(!isFavorite);
+  };
 
   return (
     <div className='card'>
@@ -41,7 +50,7 @@ function Card( {id, imgUrl, title, price, onPlus, onFavorite, favorited = false,
           </>)
       }
     </div>
-  )
+  );
 }
 
 export default Card;
