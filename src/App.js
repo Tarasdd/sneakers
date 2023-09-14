@@ -63,13 +63,13 @@ function App() {
 
   React.useEffect(() => {
     async function fetchData() {
-      // const itemsResponse = await axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/items')
+      const itemsResponse = await axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/items')
       const cartResponse = await axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/cart')
       const favoriteResponse = await axios.get('https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites')
 
       setCartItem(cartResponse.data)
       setFavorites(favoriteResponse.data)
-      // setItems(itemsResponse.data)
+      setItems(itemsResponse.data)
 
       setLoading(false)
     }
