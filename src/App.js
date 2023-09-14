@@ -6,6 +6,7 @@ import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
+import Orders from "./pages/Orders";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
