@@ -16,6 +16,17 @@ function Home({
 }) {
   const { setItems } = React.useContext(AppContext);
   const [selectedSort, setSelectedSort] = React.useState("");
+function Home({
+  searchValue,
+  setSearchValue,
+  onChangeSearchInput,
+  items,
+  onAddToCart,
+  onAddToFavorites,
+  loading,
+}) {
+  const { setItems } = React.useContext(AppContext);
+  const [selectedSort, setSelectedSort] = React.useState("");
 
   const sortPosts = (sort) => {
     setSelectedSort(sort);
@@ -26,7 +37,7 @@ function Home({
     <div className="content">
       <div className="range-line">
         <h1>
-          {searchValue ? `Search by "${searchValue}` : `The whole range`}
+          {searchValue ? `Search by "${searchValue}"` : `The whole range`}
         </h1>
 
         <div style={{ display: "flex" }}>
