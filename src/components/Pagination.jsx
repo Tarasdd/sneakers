@@ -1,31 +1,23 @@
-// import React from "react";
-// import axios from "axios";
-// import AppContext from "../context";
-// import { useState } from "react";
-// import { useEffect } from "react";
+import React from 'react';
 
-// export function Pagination () {
-//   const {} = React.useContext(AppContext);
-//   const [currentPage, setCurrentPage] = useState(1)
-//   const [itemsPerPage, setItemsPerPage] = useState(10)
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  return (
+    <div className="pagination">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        Previous
+      </button>
+      <span>Page {currentPage}</span>
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        // disabled={currentPage === totalPages}
+      >
+        Next
+      </button>
+    </div>
+  );
+}
 
-//   useEffect(() => {
-//     try {
-//       const  fetchData = async () => {
-//         const itemsResponse = await axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/items', { params: {
-//           page: currentPage,
-//           limit: itemsPerPage,
-//         },
-//       })
-//       setItems(response.fetchData)  
-//     }
-//   } catch(err) {
-//     console.error(err)
-//   }
-
-//   fetchData();
-
-// }, [currentPage, itemsPerPage])
-
-//   return ()
-// }
+export default Pagination;

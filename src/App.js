@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
 import Orders from "./pages/Orders";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [openOverlay, setOpenOverlay] = React.useState(false);
@@ -16,6 +17,10 @@ function App() {
   const [searchValue, setSearchValue] = React.useState("");
   const [loading, setLoading] = React.useState(true);
   const [amount, setAmount] = React.useState(0);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [itemsPerPage, setItemsPerPage] = React.useState(4);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item.id === obj.id)) {
@@ -71,10 +76,19 @@ function App() {
     return cartItem.some((obj) => Number(obj.id) === Number(id));
   };
 
+  const handlePerPage = (newPage) => {
+    setCurrentPage(newPage);
+  }
+
   React.useEffect(() => {
     async function fetchData() {
       const itemsResponse = await axios.get(
-        "https://64e8fb1e99cf45b15fe06193.mockapi.io/items"
+        "https://64e8fb1e99cf45b15fe06193.mockapi.io/items", {
+          params: {
+            page: currentPage,
+            limit: itemsPerPage,
+          },
+        }
       );
       const cartResponse = await axios.get(
         "https://64e8fb1e99cf45b15fe06193.mockapi.io/cart"
@@ -83,8 +97,16 @@ function App() {
         "https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites"
       );
 
-      setCartItem(cartResponse.data);
+      setTotalPages(Math.ceil(itemsResponse.data.length / itemsPerPage));
 
+      console.log(Math.ceil(itemsResponse.data.length / itemsPerPage));
+      console.log(itemsResponse.data.length);
+      console.log(itemsPerPage);
+
+      const data = await axios.get("http://localhost:3001/getCart");
+      console.log(data);
+
+      setCartItem(cartResponse.data);
       setFavorites(favoriteResponse.data);
       setItems(itemsResponse.data);
 
@@ -104,7 +126,7 @@ function App() {
     // axios.get('https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites').then(res => {
     //   setFavorites(res.data)
     // });
-  }, []);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <AppContext.Provider
@@ -113,6 +135,7 @@ function App() {
         favorites,
         cartItem,
         amount,
+        setItems,
         setAmount,
         isItemAdded,
         setOpenOverlay,
@@ -131,6 +154,12 @@ function App() {
 
         {/* HEADER */}
         <Header amount={amount} onClickCart={() => setOpenOverlay(true)} />
+
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePerPage}
+        />
 
         {/* CONTENT */}
         <Routes>
