@@ -66,7 +66,7 @@ function Home({
             )
             .map((item) => (
               <Card
-                key={item.id}
+                key={item._id}
                 onPlus={() => onAddToCart(item)}
                 onFavorite={() => onAddToFavorites(item)}
                 // added={isItemAdded(item.id)}
@@ -81,5 +81,3 @@ function Home({
 }
 
 export default Home;
-
-

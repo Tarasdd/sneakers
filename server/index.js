@@ -28,7 +28,7 @@ app.get("/getCart", async (req, res) => {
 
 app.post("/addToCart", async (req, res) => {
   try {
-    client.db().collection("Cart").insertOne(req.body);
+    await client.db().collection("Cart").insertOne(req.body);
     res.status(200);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -38,11 +38,8 @@ app.post("/addToCart", async (req, res) => {
 
 app.delete("/deleteFromCart/:id", async (req, res) => {
   try {
-    await client
-      .db()
-      .collection("Cart")
-      .deleteOne({ id: Number(req.params.id) });
-    console.log(`delete ${typeof req.params.id}`);
+    await client.db().collection("Cart").deleteOne({ _id: req.params.id });
+    console.log(`delete ${req.params.id}`);
     res.status(200);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -52,9 +49,55 @@ app.delete("/deleteFromCart/:id", async (req, res) => {
 
 app.get("/getProducts", async (req, res) => {
   try {
-    const data = await client.db().collection("Products").find({}).toArray();
+    const limit = Number(req.query.limit);
+    const page = Number(req.query.page);
+    const numberOfSkipped = (page - 1) * limit;
+    const data = await client
+      .db()
+      .collection("Products")
+      .find({})
+      .skip(numberOfSkipped)
+      .limit(limit)
+      .toArray();
 
     res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/getAllProducts", async (req, res) => {
+  try {
+    const data = await client
+      .db()
+      .collection("Products")
+      .find({})
+
+      .toArray();
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/getOrders", async (req, res) => {
+  try {
+    const data = await client.db().collection("Orders").find({}).toArray();
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/addToOrders", async (req, res) => {
+  try {
+    await client.db().collection("Favorites").insertOne(req.body);
+    res.status(200);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -74,7 +117,7 @@ app.get("/getFavorites", async (req, res) => {
 
 app.post("/addToFavorites", async (req, res) => {
   try {
-    client.db().collection("Favorites").insertOne(req.body);
+    await client.db().collection("Favorites").insertOne(req.body);
     res.status(200);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -84,10 +127,7 @@ app.post("/addToFavorites", async (req, res) => {
 
 app.delete("/deleteFromFavorites/:id", async (req, res) => {
   try {
-    await client
-      .db()
-      .collection("Favorites")
-      .deleteOne({ id: Number(req.params.id) });
+    await client.db().collection("Favorites").deleteOne({ _id: req.params.id });
 
     res.status(200);
   } catch (error) {

@@ -23,32 +23,25 @@ function App() {
   const [totalPages, setTotalPages] = React.useState(1);
 
   const onAddToCart = (obj) => {
-    if (cartItem.find((item) => item.id === obj.id)) {
-      // axios.delete(`https://64e8fb1e99cf45b15fe06193.mockapi.io/cart/${obj.id}`);
-      setCartItem(
-        cartItem.filter((item) => Number(item.id) !== Number(obj.id))
-      );
+    if (cartItem.find((item) => item._id === obj._id)) {
+      console.log(obj._id);
+      axios.delete(`http://localhost:3001/deleteFromCart/${obj._id}`);
+      setCartItem(cartItem.filter((item) => item._id !== obj._id));
     } else {
-      axios.post("https://64e8fb1e99cf45b15fe06193.mockapi.io/cart", obj);
+      axios.post("http://localhost:3001/addToCart", obj);
       setCartItem([...cartItem, obj]);
     }
   };
 
   const onAddToFavorites = async (obj) => {
     try {
-      if (favorites.find((favObj) => favObj.id === obj.id)) {
-        axios.delete(
-          `https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites/${obj.id}`
-        );
-        setFavorites((prev) =>
-          prev.filter((item) => Number(item.id) !== Number(obj.id))
-        );
+      if (favorites.find((favObj) => favObj._id === obj._id)) {
+        axios.delete(`http://localhost:3001/deleteFromFavorites/${obj._id}`);
+        setFavorites((prev) => prev.filter((item) => item._id !== obj._id));
       } else {
-        const { data } = await axios.post(
-          "https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites",
-          obj
-        );
-        setFavorites((prev) => [...prev, data]);
+        axios.post("http://localhost:3001/addToFavorites", obj);
+        setFavorites((prev) => [...prev, obj]);
+        console.log(favorites);
       }
     } catch (err) {
       alert("Cant add to favorites :<");
@@ -56,8 +49,8 @@ function App() {
   };
 
   const onRemoveItem = (id) => {
-    axios.delete(`https://64e8fb1e99cf45b15fe06193.mockapi.io/cart/${id}`);
-    setCartItem((prev) => prev.filter((item) => item.id !== id));
+    axios.delete(`http://localhost:3001/deleteFromCart/${id}`);
+    setCartItem((prev) => prev.filter((item) => item._id !== id));
   };
 
   const onChangeSearchInput = (event) => {
@@ -73,40 +66,39 @@ function App() {
   // }, [])
 
   const isItemAdded = (id) => {
-    return cartItem.some((obj) => Number(obj.id) === Number(id));
+    return cartItem.some((obj) => obj._id === id);
+  };
+
+  const isItemFavorite = (id) => {
+    return favorites.some((obj) => obj._id === id);
   };
 
   const handlePerPage = (newPage) => {
     setCurrentPage(newPage);
-  }
+  };
 
   React.useEffect(() => {
     async function fetchData() {
       const itemsResponse = await axios.get(
-        "https://64e8fb1e99cf45b15fe06193.mockapi.io/items", {
+        "http://localhost:3001/getProducts",
+        {
           params: {
-            page: currentPage,
             limit: itemsPerPage,
+            page: currentPage,
           },
         }
       );
-      const cartResponse = await axios.get(
-        "https://64e8fb1e99cf45b15fe06193.mockapi.io/cart"
-      );
+
+      const cartResponse = await axios.get("http://localhost:3001/getCart");
       const favoriteResponse = await axios.get(
-        "https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites"
+        "http://localhost:3001/getFavorites"
       );
-
-      setTotalPages(Math.ceil(itemsResponse.data.length / itemsPerPage));
-
-      console.log(Math.ceil(itemsResponse.data.length / itemsPerPage));
-      console.log(itemsResponse.data.length);
-      console.log(itemsPerPage);
-
-      const data = await axios.get("http://localhost:3001/getCart");
-      console.log(data);
-
+      const allProductsResponse = await axios.get(
+        "http://localhost:3001/getAllProducts"
+      );
+      setTotalPages(Math.ceil(allProductsResponse.data.length / itemsPerPage));
       setCartItem(cartResponse.data);
+      console.log(cartItem);
       setFavorites(favoriteResponse.data);
       setItems(itemsResponse.data);
 
@@ -114,18 +106,6 @@ function App() {
     }
 
     fetchData();
-
-    // axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/items').then((res) => {
-    // setItems(res.data)
-    // });
-
-    // axios.get('https://64e8fb1e99cf45b15fe06193.mockapi.io/cart').then((res) => {
-    //   setCartItem(res.data)
-    // });
-
-    // axios.get('https://64e9f30bbf99bdcc8e6722df.mockapi.io/favorites').then(res => {
-    //   setFavorites(res.data)
-    // });
   }, [currentPage, itemsPerPage]);
 
   return (
@@ -140,6 +120,7 @@ function App() {
         isItemAdded,
         setOpenOverlay,
         setCartItem,
+        isItemFavorite,
       }}
     >
       <div className="wrapper">
@@ -155,7 +136,7 @@ function App() {
         {/* HEADER */}
         <Header amount={amount} onClickCart={() => setOpenOverlay(true)} />
 
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePerPage}
@@ -187,13 +168,7 @@ function App() {
               />
             }
           ></Route>
-          <Route
-            path="/orders"
-            element={
-              <Orders
-              />
-            }
-          ></Route>
+          <Route path="/orders" element={<Orders />}></Route>
         </Routes>
       </div>
     </AppContext.Provider>

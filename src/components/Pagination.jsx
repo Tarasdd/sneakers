@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
   return (
@@ -12,7 +12,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <span>Page {currentPage}</span>
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        // disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages}
       >
         Next
       </button>
