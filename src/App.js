@@ -20,7 +20,7 @@ function App() {
 
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(4);
-  const [totalPages, setTotalPages] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(0);
 
   const onAddToCart = (obj) => {
     if (cartItem.find((item) => item._id === obj._id)) {
@@ -73,9 +73,9 @@ function App() {
     return favorites.some((obj) => obj._id === id);
   };
 
-  const handlePerPage = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  // const handlePerPage = (newPage) => {
+  //   setCurrentPage(newPage);
+  // };
 
   React.useEffect(() => {
     async function fetchData() {
@@ -98,11 +98,11 @@ function App() {
       );
       setTotalPages(Math.ceil(allProductsResponse.data.length / itemsPerPage));
       setCartItem(cartResponse.data);
-      console.log(cartItem);
+      // console.log(allProductsResponse);
       setFavorites(favoriteResponse.data);
       setItems(itemsResponse.data);
 
-      setLoading(false);
+      setLoading(false); 
     }
 
     fetchData();
@@ -118,6 +118,7 @@ function App() {
         setItems,
         setAmount,
         isItemAdded,
+        openOverlay,
         setOpenOverlay,
         setCartItem,
         isItemFavorite,
@@ -134,12 +135,13 @@ function App() {
         )}
 
         {/* HEADER */}
-        <Header amount={amount} onClickCart={() => setOpenOverlay(true)} />
+        <Header amount={amount} onClickCart={() => {setOpenOverlay(true); console.log('Cart clicked')} } />
 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={handlePerPage}
+          // onPageChange={handlePerPage}
+          setCurrentPage={setCurrentPage}
         />
 
         {/* CONTENT */}

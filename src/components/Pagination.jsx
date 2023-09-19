@@ -1,9 +1,18 @@
 import React from "react";
 
-function Pagination({ currentPage, totalPages, onPageChange }) {
+function Pagination({ currentPage, totalPages, setCurrentPage }) {
+  const getPagesArray = () => {
+    let res = [];
+    for(let i = 0; i < totalPages; i++) {
+      res.push(i + 1);
+    }
+    return res;
+  }
+  console.log(getPagesArray());
+
   return (
     <div className="pagination">
-      <button
+      {/* <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -15,7 +24,15 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         disabled={currentPage === totalPages}
       >
         Next
-      </button>
+      </button> */}
+      {getPagesArray().map(page => 
+        <span 
+          onClick={() => setCurrentPage(page)}
+          key={page} 
+          className={currentPage === page ? `page page-current` : `page`}>
+          {page}
+        </span>  
+      )}
     </div>
   );
 }

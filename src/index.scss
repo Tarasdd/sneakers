@@ -519,6 +519,25 @@ option:focus {
   cursor: pointer;
 }
 
+.pagination {
+  display: flex;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  margin: 0 10px;
+  padding: 10px;
+  border: 1px solid blue;
+  cursor: pointer;
+}
+
+.page-current {
+  border: 2px solid red;
+  font-weight: bold;
+}
+
 @keyframes btn-loading {
   0% {
     opacity: 1;

@@ -15,7 +15,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
   const taxAmount = () => {
     const total = totalAmount();
-    const tax = Math.floor((total * 5) / 100);
+    const tax = Math.round((total * 5) / 100);
     return tax;
   };
 
