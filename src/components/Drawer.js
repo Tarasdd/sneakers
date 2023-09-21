@@ -22,13 +22,15 @@ function Drawer({ onClose, onRemove, items = [] }) {
   const onClickOrderComplete = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post("http://localhost:3001/addToOrders", {
+      const idOfOrder = await axios.post("http://localhost:3001/addToOrders", {
         items: cartItem,
       });
+
       // await axios.put('https://64e8fb1e99cf45b15fe06193.mockapi.io/cart', [])
-      setOrderId(data._id);
+      setOrderId(idOfOrder.data);
       setIsOrderComplete(true);
       setCartItem([]);
+      await axios.delete("http://localhost:3001/deleteCart");
 
       // console.log(isOrderComplete);
     } catch (err) {

@@ -36,7 +36,7 @@ function Home({
               onChange={sortPosts}
               defaultValue="Sort"
               options={[
-                { value: "id", name: "from new to old" },
+                { value: "_id", name: "from new to old" },
                 { value: "price", name: "lower price" },
               ]}
             />
